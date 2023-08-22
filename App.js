@@ -10,11 +10,12 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isSummaryVisible, setIsSummaryVisible] = useState(false);
+  const [isSummaryFetched, setIsSummaryFetched] = useState(false);
 
-  const handleSubmit = async submittedUrl => {
+  const fetchArticle = async submittedUrl => {
     setIsLoading(true);
     try {
-      const response = await fetch('https://url-summary-backend.jackdewinter.repl.co/summarize', {
+      const response = await fetch('https://url-summary-backend.jackdewinter.repl.co/fetch-article', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -24,24 +25,53 @@ export default function App() {
 
       if (response.ok) {
         const responseData = await response.json();
-        setArticle(responseData.article)
-        setSummary(responseData.summary);
-        console.log('Server response:', responseData);
+        setArticle(responseData.article);
+        console.log('Server response for article:', responseData);
       } else {
-        console.error('POST request failed:', response.status, response.statusText);
+        console.error('POST request for article failed:', response.status, response.statusText);
       }
       
       setIsModalVisible(true);
     } catch (error) {
-      console.error('Error sending POST request:', error);
+      console.error('Error sending POST request for article:', error);
     } finally {
       setIsLoading(false);
     }
   };
 
+  const fetchSummary = async () => {
+    if(!isSummaryFetched) {
+      setIsLoading(true);
+      try {
+        const response = await fetch('https://url-summary-backend.jackdewinter.repl.co/generate-summary', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ article: article }),
+        });
+  
+        if (response.ok) {
+          const responseData = await response.json();
+          setSummary(responseData.summary);
+          console.log('Server response for summary:', responseData);
+          setIsSummaryVisible(true);
+        } else {
+          console.error('POST request for summary failed:', response.status, response.statusText);
+        }
+      } catch (error) {
+        console.error('Error sending POST request for summary:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      setIsSummaryVisible(!isSummaryVisible);
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <URLSubmitter handleSubmit={handleSubmit} />
+      <URLSubmitter handleSubmit={fetchArticle} />
       {isLoading && <ActivityIndicator size="large" color="#0000ff" style={styles.activityIndicator} />}
       
       <Modal
@@ -56,7 +86,7 @@ export default function App() {
             ? <TouchableOpacity style={styles.summaryButton} onPress={() => setIsSummaryVisible(false)}>
                 <Text style={styles.summaryButtonText}>Hide Summary</Text>
               </TouchableOpacity>
-            : <TouchableOpacity style={styles.summaryButton} onPress={() => setIsSummaryVisible(true)}>
+            : <TouchableOpacity style={styles.summaryButton} onPress={fetchSummary}>
                 <Text style={styles.summaryButtonText}>Read Summary</Text>
               </TouchableOpacity>
           }
