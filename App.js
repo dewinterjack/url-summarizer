@@ -1,13 +1,21 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, ActivityIndicator, Modal, Button, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, View, ActivityIndicator, Modal, Button, Text, TouchableOpacity, ScrollView, AppRegistry } from 'react-native';
 import { useState } from 'react';
 import URLSubmitter from './components/URLSubmitter';
 import Reader from './components/Reader';
 import useArticle from './hooks/useArticle';
 import useSummary from './hooks/useSummary';
+import BookmarkProvider from './Bookmark/BookmarkProvider';
 
-export default function App() {
+export default function AppWrapper() {
+  return (
+    <BookmarkProvider>
+      <App />
+    </BookmarkProvider>
+  );
+}
 
+function App() {
   const [isSummaryVisible, setIsSummaryVisible] = useState(false);
   const [isArticleVisible, setIsArticleVisible] = useState(false);
 
@@ -70,6 +78,8 @@ export default function App() {
     </View>
   );
 }
+
+AppRegistry.registerComponent('App', () => AppWrapper);
 
 const styles = StyleSheet.create({
   container: {
