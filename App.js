@@ -26,8 +26,12 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <URLSubmitter handleSubmit={fetchArticle} />
-      {isArticleLoading && <ActivityIndicator size="large" color="#0000ff" style={styles.activityIndicator} />}
+
+      {isArticleLoading ? (
+        <ActivityIndicator size="large" color="#0000ff" style={styles.activityIndicator} />
+      ) : (
+        <URLSubmitter handleSubmit={fetchArticle} />
+      )}
 
       <Modal
         animationType="slide"
