@@ -9,8 +9,10 @@ export const BookmarkContext = createContext(initialState);
 export const bookmarkReducer = (state, action) => {
   switch (action.type) {
     case 'ADD_BOOKMARK':
+      console.log('ADD_BOOKMARK');
       return { bookmarks: [...state.bookmarks, action.payload] };
     case 'REMOVE_BOOKMARK':
+      console.log('REMOVE_BOOKMARK');
       return { bookmarks: state.bookmarks.filter((_, index) => index !== action.payload) };
     default:
       return state;

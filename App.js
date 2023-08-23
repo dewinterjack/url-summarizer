@@ -5,6 +5,7 @@ import URLSubmitter from './components/URLSubmitter';
 import Reader from './components/Reader';
 import useArticle from './hooks/useArticle';
 import useSummary from './hooks/useSummary';
+import BookmarkButton from './Bookmark/BookmarkButton';
 import BookmarkProvider from './Bookmark/BookmarkProvider';
 
 export default function AppWrapper() {
@@ -49,6 +50,7 @@ function App() {
 
         <View style={styles.modalHeader}>
           <View style={{ flex: 1 }} />
+          <BookmarkButton />
           {isSummaryVisible
             ? <TouchableOpacity style={styles.summaryButton} onPress={() => setIsSummaryVisible(false)}>
               <Text style={styles.summaryButtonText}>Hide Summary</Text>
