@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, ActivityIndicator, Modal, Button, Text, TouchableOpacity, ScrollView, AppRegistry } from 'react-native';
+import { StyleSheet, View, ActivityIndicator, Modal, Text, TouchableOpacity, ScrollView, AppRegistry } from 'react-native';
 import { useState } from 'react';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import URLSubmitter from './components/URLSubmitter';
 import Reader from './components/Reader';
 import useArticle from './hooks/useArticle';
@@ -73,7 +74,9 @@ function App() {
         )}
 
         <Reader content={article} />
-        <Button title="Close" onPress={() => setIsArticleVisible(false)} />
+        <TouchableOpacity style={styles.closeButton} onPress={() => setIsArticleVisible(false)}>
+          <Ionicons name="close" size={32} />
+        </TouchableOpacity>
       </Modal>
 
       <StatusBar style="auto" />
@@ -100,6 +103,10 @@ const styles = StyleSheet.create({
   },
   summaryButton: {
     marginTop: 25
+  },
+  closeButton: {
+    marginBottom: 50,
+    alignSelf: 'center'
   },
   activityIndicator: {
     marginTop: 20,
