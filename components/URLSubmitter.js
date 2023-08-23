@@ -6,7 +6,7 @@ function URLSubmitter({ handleSubmit }) {
   const [submittedText, setSubmittedText] = useState('');
 
   const handleFormSubmit = () => {
-    if (handleSubmit) {
+    if (inputText.trim() !== '' && handleSubmit) {
       handleSubmit(inputText);
       setSubmittedText(inputText);
       setInputText('');
@@ -22,7 +22,7 @@ function URLSubmitter({ handleSubmit }) {
           value={inputText}
           onChangeText={text => setInputText(text)}
           placeholder="Enter URL"
-          returnKeyType="Done"
+          returnKeyType="done"
         />
         <TouchableOpacity style={styles.button} onPress={handleFormSubmit}>
           <Text style={styles.buttonText}>Submit</Text>
