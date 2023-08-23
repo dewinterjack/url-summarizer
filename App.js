@@ -3,86 +3,37 @@ import { StyleSheet, View, ActivityIndicator, Modal, Button, Text, TouchableOpac
 import { useState } from 'react';
 import URLSubmitter from './components/URLSubmitter';
 import Reader from './components/Reader';
+import useArticle from './hooks/useArticle';
+import useSummary from './hooks/useSummary';
 
 export default function App() {
-  const [article, setArticle] = useState('');
-  const [summary, setSummary] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const [isSummaryVisible, setIsSummaryVisible] = useState(false);
-  const [isSummaryFetched, setIsSummaryFetched] = useState(false);
+  const [isArticleVisible, setIsArticleVisible] = useState(false);
 
-  const fetchArticle = async submittedUrl => {
-    setIsLoading(true);
-    try {
-      const response = await fetch('https://url-summary-backend.jackdewinter.repl.co/fetch-article', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ url: submittedUrl }),
-      });
-
-      if (response.ok) {
-        const responseData = await response.json();
-        setArticle(responseData.article);
-        setSummary('');
-        setIsSummaryFetched(false);
-        setIsSummaryVisible(false);
-        console.log('Server responded with article');
-      } else {
-        console.error('POST request for article failed:', response.status, response.statusText);
-      }
-
-      setIsModalVisible(true);
-    } catch (error) {
-      console.error('Error sending POST request for article:', error);
-    } finally {
-      setIsLoading(false);
-    }
+  const onArticleFetched = () => {
+    resetSummary();
+    setIsSummaryVisible(false);
+    setIsArticleVisible(true);
   };
 
-  const fetchSummary = async () => {
+  const onFetchSummary = () => {
     setIsSummaryVisible(true);
-    if (!isSummaryFetched) {
-      setIsLoading(true);
-      try {
-        const response = await fetch('https://url-summary-backend.jackdewinter.repl.co/generate-summary', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ article: article }),
-        });
-
-        if (response.ok) {
-          const responseData = await response.json();
-          setSummary(responseData.summary);
-          setIsSummaryFetched(true);
-          console.log('Server responded with summary');
-        } else {
-          console.error('POST request for summary failed:', response.status, response.statusText);
-        }
-      } catch (error) {
-        console.error('Error sending POST request for summary:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    } else {
-      setIsSummaryVisible(!isSummaryVisible);
-    }
   };
+
+  const { article, isLoading: isArticleLoading, fetchArticle } = useArticle(onArticleFetched);
+  const { summary, isLoading: isSummaryLoading, fetchSummary, resetSummary } = useSummary(article, onFetchSummary);
 
   return (
     <View style={styles.container}>
       <URLSubmitter handleSubmit={fetchArticle} />
-      {isLoading && <ActivityIndicator size="large" color="#0000ff" style={styles.activityIndicator} />}
+      {isArticleLoading && <ActivityIndicator size="large" color="#0000ff" style={styles.activityIndicator} />}
 
       <Modal
         animationType="slide"
         transparent={false}
-        visible={isModalVisible}
-        onRequestClose={() => setIsModalVisible(false)}>
+        visible={isArticleVisible}
+        onRequestClose={() => setIsArticleVisible(false)}>
 
         <View style={styles.modalHeader}>
           <View style={{ flex: 1 }} />
@@ -98,7 +49,7 @@ export default function App() {
 
         {isSummaryVisible && (
           <View style={styles.summaryContainer}>
-            {isLoading
+            {isSummaryLoading
               ? <ActivityIndicator size="large" color="#0000ff" style={styles.activityIndicatorSummary} />
               : <ScrollView>
                 <Reader content={summary} />
@@ -108,7 +59,7 @@ export default function App() {
         )}
 
         <Reader content={article} />
-        <Button title="Close" onPress={() => setIsModalVisible(false)} />
+        <Button title="Close" onPress={() => setIsArticleVisible(false)} />
       </Modal>
 
       <StatusBar style="auto" />
