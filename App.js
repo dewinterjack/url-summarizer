@@ -26,11 +26,14 @@ export default function App() {
       if (response.ok) {
         const responseData = await response.json();
         setArticle(responseData.article);
-        console.log('Server response for article:', responseData);
+        setSummary('');
+        setIsSummaryFetched(false);
+        setIsSummaryVisible(false);
+        console.log('Server responded with article');
       } else {
         console.error('POST request for article failed:', response.status, response.statusText);
       }
-      
+
       setIsModalVisible(true);
     } catch (error) {
       console.error('Error sending POST request for article:', error);
@@ -40,7 +43,7 @@ export default function App() {
   };
 
   const fetchSummary = async () => {
-    if(!isSummaryFetched) {
+    if (!isSummaryFetched) {
       setIsLoading(true);
       try {
         const response = await fetch('https://url-summary-backend.jackdewinter.repl.co/generate-summary', {
@@ -50,12 +53,13 @@ export default function App() {
           },
           body: JSON.stringify({ article: article }),
         });
-  
+
         if (response.ok) {
           const responseData = await response.json();
           setSummary(responseData.summary);
-          console.log('Server response for summary:', responseData);
+          setIsSummaryFetched(true);
           setIsSummaryVisible(true);
+          console.log('Server responded with summary');
         } else {
           console.error('POST request for summary failed:', response.status, response.statusText);
         }
@@ -73,26 +77,26 @@ export default function App() {
     <View style={styles.container}>
       <URLSubmitter handleSubmit={fetchArticle} />
       {isLoading && <ActivityIndicator size="large" color="#0000ff" style={styles.activityIndicator} />}
-      
+
       <Modal
         animationType="slide"
         transparent={false}
         visible={isModalVisible}
         onRequestClose={() => setIsModalVisible(false)}>
-        
+
         <View style={styles.modalHeader}>
           <View style={{ flex: 1 }} />
-          {isSummaryVisible 
+          {isSummaryVisible
             ? <TouchableOpacity style={styles.summaryButton} onPress={() => setIsSummaryVisible(false)}>
-                <Text style={styles.summaryButtonText}>Hide Summary</Text>
-              </TouchableOpacity>
+              <Text style={styles.summaryButtonText}>Hide Summary</Text>
+            </TouchableOpacity>
             : <TouchableOpacity style={styles.summaryButton} onPress={fetchSummary}>
-                <Text style={styles.summaryButtonText}>Read Summary</Text>
-              </TouchableOpacity>
+              <Text style={styles.summaryButtonText}>Read Summary</Text>
+            </TouchableOpacity>
           }
         </View>
 
-        {isSummaryVisible && 
+        {isSummaryVisible &&
           <View style={styles.summaryContainer}>
             <ScrollView>
               <Reader content={summary} />
