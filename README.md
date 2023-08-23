@@ -7,3 +7,4 @@ Build for ios with tests:
 npm install eas-cli -g
 ```
 
+Icons from https://icons.expo.fyi/Index

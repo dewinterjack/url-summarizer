@@ -1,15 +1,16 @@
 import React, { useContext } from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { BookmarkContext } from './BookmarkContext';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function BookmarkButton({ article, summary }) {
   const { state, dispatch } = useContext(BookmarkContext);
 
-  const handleBookmark = () => {
-    const isBookmarked = state.bookmarks.some(
-      bookmark => bookmark.article === article && bookmark.summary === summary
-    );
+  const isBookmarked = state.bookmarks.some(
+    bookmark => bookmark.article === article && bookmark.summary === summary
+  );
 
+  const handleBookmark = () => {
     if (isBookmarked) {
       const index = state.bookmarks.findIndex(
         bookmark => bookmark.article === article && bookmark.summary === summary
@@ -22,7 +23,11 @@ export default function BookmarkButton({ article, summary }) {
 
   return (
     <TouchableOpacity style={styles.button} onPress={handleBookmark}>
-      <Text style={styles.text}>Bookmark</Text>
+      {isBookmarked ? (
+        <Ionicons name="bookmark" size={32} />
+      ) : (
+        <Ionicons name="bookmark-outline" size={32} />
+      )}
     </TouchableOpacity>
   )
 }
@@ -30,7 +35,6 @@ export default function BookmarkButton({ article, summary }) {
 const styles = StyleSheet.create({
   button: {
     padding: 10,
-    backgroundColor: 'blue',
     borderRadius: 5,
     marginTop: 20,
   },
