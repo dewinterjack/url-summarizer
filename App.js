@@ -43,6 +43,7 @@ export default function App() {
   };
 
   const fetchSummary = async () => {
+    setIsSummaryVisible(true);
     if (!isSummaryFetched) {
       setIsLoading(true);
       try {
@@ -58,7 +59,6 @@ export default function App() {
           const responseData = await response.json();
           setSummary(responseData.summary);
           setIsSummaryFetched(true);
-          setIsSummaryVisible(true);
           console.log('Server responded with summary');
         } else {
           console.error('POST request for summary failed:', response.status, response.statusText);
@@ -96,15 +96,18 @@ export default function App() {
           }
         </View>
 
-        {isSummaryVisible &&
+        {isSummaryVisible && (
           <View style={styles.summaryContainer}>
-            <ScrollView>
-              <Reader content={summary} />
-            </ScrollView>
+            {isLoading
+              ? <ActivityIndicator size="large" color="#0000ff" style={styles.activityIndicatorSummary} />
+              : <ScrollView>
+                <Reader content={summary} />
+              </ScrollView>
+            }
           </View>
-        }
-        <Reader content={article} />
+        )}
 
+        <Reader content={article} />
         <Button title="Close" onPress={() => setIsModalVisible(false)} />
       </Modal>
 
@@ -134,6 +137,10 @@ const styles = StyleSheet.create({
   activityIndicator: {
     marginTop: 20,
     alignSelf: 'center'
+  },
+  activityIndicatorSummary: {
+    alignSelf: 'center',
+    marginTop: 20,
   },
   modalHeader: {
     flexDirection: 'row',
