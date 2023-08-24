@@ -29,7 +29,7 @@ function URLSubmitter({ handleSubmit }) {
         </TouchableOpacity>
       </View>
       <View style={styles.bottomContainer}>
-        <Text>URL Summarizer</Text>
+        <Text>Read and manage articles using AI.</Text>
       </View>
     </View>
   );
