@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "url-summarizer",
+    "name": "ArticleAI",
     "slug": "url-summarizer",
-    "version": "0.1.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -27,7 +27,7 @@
     },
     "web": {
       "bundler": "metro",
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon.png"
     },
     "extra": {
       "eas": {
