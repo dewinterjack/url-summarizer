@@ -1,5 +1,6 @@
-Build for ios with tests:
-`eas build -p ios -e test`
+Adhoc local build: `eas build -p ios -e adhoc --local`
+
+Build for ios with tests: `eas build -p ios -e test`
 
 ### Requirements
 
