@@ -3,8 +3,10 @@ import { useState } from 'react';
 const useArticle = (onArticleFetched) => {
   const [article, setArticle] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [url, setUrl] = useState('')
 
   const fetchArticle = async (submittedUrl) => {
+    setUrl(submittedUrl)
     setIsLoading(true);
     try {
       const response = await fetch('https://url-summary-backend.jackdewinter.repl.co/fetch-article', {
@@ -30,7 +32,7 @@ const useArticle = (onArticleFetched) => {
     }
   };
 
-  return { article, isLoading, fetchArticle };
+  return { url, article, isLoading, fetchArticle };
 };
 
 export default useArticle;

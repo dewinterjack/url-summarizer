@@ -22,8 +22,8 @@ export default function HomeScreen() {
     setIsSummaryVisible(true);
   };
 
-  const { article, isLoading: isArticleLoading, fetchArticle } = useArticle(onArticleFetched);
-  const { summary, isLoading: isSummaryLoading, fetchSummary, resetSummary } = useSummary(article, onFetchSummary);
+  const { url, article, isLoading: isArticleLoading, fetchArticle } = useArticle(onArticleFetched);
+  const { summary, isLoading: isSummaryLoading, fetchSummary, resetSummary } = useSummary(url, onFetchSummary);
 
   return (
     <View style={styles.container}>
