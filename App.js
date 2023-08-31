@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import BookmarkProvider from './Bookmark/BookmarkProvider';
 import HomeScreen from './screens/HomeScreen';
-import ProfileScreen from './screens/ProfileScreen';
+import ProfileStack from './screens/ProfileStack';
 
 export default function AppWrapper() {
   return (
@@ -43,7 +43,7 @@ export function App() {
         })}
       >
         <Tab.Screen name="Article AI" component={HomeScreen} />
-        <Tab.Screen name="Profile" component={ProfileScreen} />
+        <Tab.Screen name="Profile" component={ProfileStack} />
       </Tab.Navigator>
     </NavigationContainer>
   );

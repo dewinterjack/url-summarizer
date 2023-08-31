@@ -1,4 +1,5 @@
 import React, { useState} from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
 import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image, Button } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
