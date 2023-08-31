@@ -1,16 +1,40 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import React, { useState} from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image, Button } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import * as ImagePicker from 'expo-image-picker';
 
 const profileLinks = [
   { title: 'Bookmarks', navigateTo: 'BookmarksScreen' },
 ];
 
+const PlaceholderImage = require('../assets/images/profile.png');
+
 const ProfileScreen = ({ navigation }) => {
+
+
+  const pickImageAsync = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      console.log(result);
+    } else {
+      alert('You did not select any image.');
+    }
+  };
+
+
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
-        <Text style={styles.detailsText}>User Details Here</Text>
+        <TouchableOpacity>
+          <Image
+            style={styles.profileImage}
+            source={PlaceholderImage}
+          />
+          </TouchableOpacity>
       </View>
       <View style={styles.bottomContainer}>
         <FlatList
@@ -75,6 +99,13 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderTopColor: '#ccc',
     borderTopWidth: 1,
+  },
+  profileImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: '#000',
   },
 });
 
