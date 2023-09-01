@@ -1,10 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import { BookmarkContext } from '../Bookmark/BookmarkContext'; // Import your context
+import { BookmarkContext } from '../Bookmark/BookmarkContext';
+import ArticleModal from '../components/ArticleModal';
 
 const BookmarksScreen = ({ navigation }) => {
-  const { state } = useContext(BookmarkContext); // Use your context
+  const { state } = useContext(BookmarkContext);
   const { bookmarks } = state;
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedArticle, setSelectedArticle] = useState(null);
+
+  const handlePress = (article) => {
+    setSelectedArticle(article);
+    setIsModalVisible(true);
+  };
 
   return (
     <View style={styles.container}>
@@ -14,13 +23,16 @@ const BookmarksScreen = ({ navigation }) => {
         renderItem={({ item, index }) => (
           <TouchableOpacity
             style={styles.listItem}
-            onPress={() => {
-              /* Handle opening individual articles here */
-            }}
+            onPress={() => handlePress(item.article)}
           >
-            <Text style={styles.listItemText}>{item.article.title /* Access the article's title */}</Text>
+            <Text style={styles.listItemText}>{item.title}</Text>
           </TouchableOpacity>
         )}
+      />
+      <ArticleModal
+        isVisible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+        article={selectedArticle}
       />
     </View>
   );

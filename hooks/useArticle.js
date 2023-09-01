@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 const useArticle = (onArticleFetched) => {
   const [article, setArticle] = useState('');
+  const [title, setTitle] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchArticle = async (submittedUrl) => {
@@ -18,6 +19,7 @@ const useArticle = (onArticleFetched) => {
       if (response.ok) {
         const responseData = await response.json();
         setArticle(responseData.article);
+        setTitle(responseData.title);
         onArticleFetched();
         console.log('Server responded with article');
       } else {
@@ -30,7 +32,7 @@ const useArticle = (onArticleFetched) => {
     }
   };
 
-  return { article, isLoading, fetchArticle };
+  return { article, title, isLoading, fetchArticle };
 };
 
 export default useArticle;

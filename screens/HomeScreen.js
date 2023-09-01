@@ -22,7 +22,7 @@ export default function HomeScreen() {
     setIsSummaryVisible(true);
   };
 
-  const { article, isLoading: isArticleLoading, fetchArticle } = useArticle(onArticleFetched);
+  const { article, title, isLoading: isArticleLoading, fetchArticle } = useArticle(onArticleFetched);
   const { summary, isLoading: isSummaryLoading, fetchSummary, resetSummary } = useSummary(article, onFetchSummary);
 
   return (
@@ -42,7 +42,7 @@ export default function HomeScreen() {
 
         <View style={styles.modalHeader}>
           <View style={{ flex: 1 }} />
-          <BookmarkButton />
+          <BookmarkButton article={article} title={title}/>
           {isSummaryVisible
             ? <TouchableOpacity style={styles.summaryButton} onPress={() => setIsSummaryVisible(false)}>
               <Text style={styles.summaryButtonText}>Hide Summary</Text>

@@ -3,7 +3,7 @@ import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { BookmarkContext } from './BookmarkContext';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-export default function BookmarkButton({ article, summary }) {
+export default function BookmarkButton({ article, title, summary }) {
   const { state, dispatch } = useContext(BookmarkContext);
 
   const isBookmarked = state.bookmarks.some(
@@ -17,7 +17,7 @@ export default function BookmarkButton({ article, summary }) {
       );
       dispatch({ type: 'REMOVE_BOOKMARK', payload: index });
     } else {
-      dispatch({ type: 'ADD_BOOKMARK', payload: { article, summary } });
+      dispatch({ type: 'ADD_BOOKMARK', payload: { article, title, summary } });
     }
   };
 
