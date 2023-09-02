@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Metadata about the app -->
+    <key>CFBundleDevelopmentRegion</key>
+    <string>en</string>
+    <key>CFBundleDisplayName</key>
+    <string>article ai</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.yourcompany.YourAppName</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleName</key>
+    <string>article ai</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+
+    <!-- App Schema -->
+    <key>articleai</key>
+    <dict>
+        <!-- Add any schema-specific properties here -->
+        <key>NSExtensionActivationRule</key>
+		<string>TRUEPREDICATE</string>
+    </dict>
+
+    <!-- Other app settings -->
+    <key>UIAppFonts</key>
+    <array>
+        <!-- Add custom fonts here if needed -->
+        <string>Font1.ttf</string>
+        <string>Font2.ttf</string>
+    </array>
+    
+    <!-- Add more app-specific settings here -->
+
+</dict>
+</plist>

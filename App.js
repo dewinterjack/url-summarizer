@@ -5,6 +5,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import BookmarkProvider from './Bookmark/BookmarkProvider';
 import HomeScreen from './screens/HomeScreen';
 import ProfileStack from './screens/ProfileStack';
+import { Linking } from 'react-native';
 
 export default function AppWrapper() {
   return (
@@ -14,9 +15,13 @@ export default function AppWrapper() {
   );
 }
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator(); 
 
 export function App() {
+  Linking.addEventListener('url', (event) => {
+    console.log(event.url);
+    // Handle the received link here
+  });
   return (
     <NavigationContainer>
       <Tab.Navigator
